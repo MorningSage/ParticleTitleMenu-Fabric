@@ -1,12 +1,13 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "morningsage.particletitlescreen.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "RotatingCubeMapRendererMixin",
+    "TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
