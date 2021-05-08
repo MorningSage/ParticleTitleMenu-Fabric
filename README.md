@@ -1,8 +1,11 @@
-# Fabric Example Mod
+# Particle Title Menu
 
-## Setup
+## Details
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+Overrides the default Minecraft Title Menu with moving particles that can interact with each other and the mouse.  Comes with a config which allows fine-tuned control over particle behavior as well as their look and feel.  
+
+## Screenshots
+![alt Menu Screenshot](screenhost.png)
 
 ## License
 
