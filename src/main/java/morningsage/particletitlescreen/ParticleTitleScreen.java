@@ -4,7 +4,6 @@ import morningsage.particletitlescreen.config.ConfigFileHandler;
 import morningsage.particletitlescreen.config.ModConfig;
 import morningsage.particletitlescreen.events.TitleScreenCreatedEvent;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.ModInitializer;
 
 public class ParticleTitleScreen implements ClientModInitializer {
 	public static final String MOD_ID = "particletitlescreen";

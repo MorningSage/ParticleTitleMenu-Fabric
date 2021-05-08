@@ -14,6 +14,9 @@ public final class RandomUtils {
     public static float getRandomFloat(float min, float max) {
         return min + random.nextFloat() * (max - min);
     }
+    public static float getRandomFloat() {
+        return getRandomFloat(0, 1);
+    }
 
     private static float getRandomX() {
         return getRandomFloat(0, minecraftWindow.getScaledWidth());
@@ -28,27 +31,33 @@ public final class RandomUtils {
     }
 
     public static void moveParticleIfNeeded(Particle particle, boolean bounce) {
-        // Move if the particle is outside the window
-        if (particle.getLocationVec().x - particle.getRadius() > minecraftWindow.getScaledWidth()) {
-            particle.getLocationVec().set(-particle.getRadius(), getRandomY());
-        } else if (particle.getLocationVec().x + particle.getRadius() < 0) {
-            particle.getLocationVec().set(minecraftWindow.getScaledWidth() + particle.getRadius(), getRandomY());
-        }
+        int width  = minecraftWindow.getScaledWidth();
+        int height = minecraftWindow.getScaledHeight();
 
-        if (particle.getLocationVec().y - particle.getRadius() > minecraftWindow.getScaledHeight()) {
-            particle.getLocationVec().set(getRandomX(), -particle.getRadius());
-        } else if (particle.getLocationVec().y + particle.getRadius() < 0) {
-            particle.getLocationVec().set(getRandomX(), minecraftWindow.getScaledHeight() + particle.getRadius());
-        }
+        Vec2d location = particle.getLocationVec();
+        float radius   = particle.getRadius();
 
-        // Bounce nicely off the sides if enabled
         if (bounce) {
-            if (particle.getLocationVec().x + particle.getRadius() > minecraftWindow.getScaledWidth() || particle.getLocationVec().x - particle.getRadius() < 0) {
-                particle.getRealizedVelocity().x = -particle.getRealizedVelocity().x;
+            Vec2d velocity = particle.getRealizedVelocity();
+
+            if (location.x + radius > width || location.x - radius < 0) {
+                velocity.x = -velocity.x;
             }
 
-            if (particle.getLocationVec().y + particle.getRadius() > minecraftWindow.getScaledHeight() || particle.getLocationVec().y - particle.getRadius() < 0) {
-                particle.getRealizedVelocity().y = -particle.getRealizedVelocity().y;
+            if (location.y + radius > height || location.y - radius < 0) {
+                velocity.y = -velocity.y;
+            }
+        } else {
+            if (location.x - radius > width) {
+                location.set(-radius, getRandomY());
+            } else if (location.x + radius < 0) {
+                location.set(width + radius, getRandomY());
+            }
+
+            if (location.y - radius > height) {
+                location.set(getRandomX(), -radius);
+            } else if (location.y + radius < 0) {
+                location.set(getRandomX(), height + radius);
             }
         }
     }

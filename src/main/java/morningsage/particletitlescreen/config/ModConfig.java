@@ -9,12 +9,6 @@ public final class ModConfig {
 
     @ConfigField(
         category = "general",
-        comment = "Maximum number of particles to render at any given time."
-    )
-    public static int maxParticles = 50;
-
-    @ConfigField(
-        category = "general",
         comment = "Particle color"
     )
     public static String particleColor = "#ffffff";
@@ -23,7 +17,7 @@ public final class ModConfig {
         category = "general",
         comment = "Enables particles to have a random radius (specified by particleMinRadius and particleMaxRadius).  When true, this overrides particleRadius."
     )
-    public static boolean randomParticleRadius = false;
+    public static boolean randomParticleRadius = true;
 
     @ConfigField(
         category = "general",
@@ -46,7 +40,7 @@ public final class ModConfig {
         category = "general",
         comment = "Enables particles to have a random opacity.  When true, this overrides particleOpacity."
     )
-    public static boolean randomParticleOpacity = false;
+    public static boolean randomParticleOpacity = true;
 
     @ConfigField(
         category = "general",
@@ -100,4 +94,14 @@ public final class ModConfig {
         comment = "Indicates whether particles should bound off the side of the window.  Ignored if particleMovement is false."
     )
     public static boolean particleBounce = false;
+    @ConfigField(
+        category = "general",
+        comment = "Indicates whether particles should be repelled by the mouse cursor."
+    )
+    public static boolean particleRepelledByMouse = true;
+    @ConfigField(
+        category = "general",
+        comment = "Indicates how far particles should be repelled by the mouse cursor.  Ignored if particleRepelledByMouse is false."
+    )
+    public static double particleDistanceRepelledByMouse = 100.0D;
 }
