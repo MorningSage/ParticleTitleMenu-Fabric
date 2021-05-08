@@ -4,8 +4,14 @@
 
 Overrides the default Minecraft Title Menu with moving particles that can interact with each other and the mouse.  Comes with a config which allows fine-tuned control over particle behavior as well as their look and feel.  
 
+
+
 ## Screenshots
-![alt Menu Screenshot](screenhost.png)
+![Menu Screenshot](screenhost.png)
+
+## Download
+You can download from the [releases](https://github.com/MorningSage/ParticleTitleMenu-Fabric/releases) here on Github or directly from [CurseForge](https://www.curseforge.com/minecraft/mc-mods/particle-title-menu):
+
 
 ## License
 
