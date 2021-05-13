@@ -6,11 +6,12 @@
   "mixins": [
   ],
   "client": [
+    "MinecraftClientMixin",
     "MouseMixin",
     "RotatingCubeMapRendererMixin",
     "TitleScreenMixin",
     "WindowMixin",
-    "MinecraftClientMixin"
+    "Vec2fMixin"
   ],
   "injectors": {
     "defaultRequire": 1

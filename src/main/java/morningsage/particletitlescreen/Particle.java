@@ -1,26 +1,28 @@
 package morningsage.particletitlescreen;
 
-import com.sun.javafx.geom.Vec2d;
+//import com.sun.javafx.geom.Vec2d;
 import lombok.*;
+import morningsage.particletitlescreen.ducks.Vec2fDuck;
 import morningsage.particletitlescreen.utils.RandomUtils;
 import morningsage.particletitlescreen.utils.RenderUtils;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
 import org.jetbrains.annotations.Nullable;
 
 @Data @Builder
 public class Particle {
 
-    @NonNull Vec2d locationVec;
+    @NonNull Vec2f locationVec;
     @Builder.Default float opacity = 1.0F;
     @Builder.Default int color = 0xFFFFFFFF;
-    @Builder.Default float radius = 5;
-    @Builder.Default Vec2d baseVelocity = new Vec2d();
-    @Builder.Default double speed = 0;
+    @Builder.Default float radius = 5.0F;
+    @Builder.Default Vec2f baseVelocity = Vec2f.ZERO;
+    @Builder.Default float speed = 0.0F;
 
-    Vec2d realizedVelocity;
+    Vec2f realizedVelocity;
 
     public void interact(Particle particle, double maximumDistance, float maxOpacity, int color) {
-        double dist = locationVec.distance(particle.getLocationVec());
+        double dist = ((Vec2fDuck) locationVec).distance(particle.getLocationVec());
 
         if (dist > maximumDistance) return;
 
@@ -37,38 +39,34 @@ public class Particle {
 
     public void move() {
         if (realizedVelocity == null) {
-            realizedVelocity = new Vec2d(
-                baseVelocity.x + RandomUtils.getRandomFloat() - 0.5,
-                baseVelocity.y + RandomUtils.getRandomFloat() - 0.5
+            realizedVelocity = new Vec2f(
+                baseVelocity.x + RandomUtils.getRandomFloat() - 0.5F,
+                baseVelocity.y + RandomUtils.getRandomFloat() - 0.5F
             );
         }
 
-        double ms = speed / 2;
+        float ms = speed / 2.0F;
 
-        locationVec.set(locationVec.x + realizedVelocity.x * ms, locationVec.y + realizedVelocity.y * ms);
+        ((Vec2fDuck) locationVec).set(locationVec.x + realizedVelocity.x * ms, locationVec.y + realizedVelocity.y * ms);
     }
-    public void interactWithMouse(@Nullable Vec2d mouse, Vec2d windowSize, boolean bounce, double repelledRadius, double scale) {
+    public void interactWithMouse(@Nullable Vec2f mouse, Vec2f windowSize, boolean bounce, float repelledRadius, float scale) {
         if (mouse == null) return;
 
-        double scaledRepelledRadius = -10 * scale + repelledRadius;
+        float scaledRepelledRadius = -10.0F * scale + repelledRadius;
 
-        Vec2d tmp = new Vec2d(locationVec.x - mouse.x / scale, locationVec.y - mouse.y / scale);
-        double dist_mouse = Math.sqrt(tmp.x * tmp.x + tmp.y * tmp.y);
+        Vec2f tmp = new Vec2f(locationVec.x - mouse.x / scale, locationVec.y - mouse.y / scale);
+        float dist_mouse = (float) Math.sqrt(tmp.x * tmp.x + tmp.y * tmp.y);
 
-        Vec2d normVec = new Vec2d(tmp.x / dist_mouse, tmp.y / dist_mouse);
-        double repelFactor = MathHelper.clamp((1 / scaledRepelledRadius) * (-1 * Math.pow(dist_mouse / scaledRepelledRadius, 2) + 1) * scaledRepelledRadius * 100, 0, 50);
+        Vec2f normVec = new Vec2f(tmp.x / dist_mouse, tmp.y / dist_mouse);
+        float repelFactor = (float) MathHelper.clamp((1 / scaledRepelledRadius) * (-1 * Math.pow(dist_mouse / scaledRepelledRadius, 2) + 1) * scaledRepelledRadius * 100, 0, 50);
 
-        Vec2d newPosition = new Vec2d(
-            locationVec.x + normVec.x * repelFactor,
-            locationVec.y + normVec.y * repelFactor
-        );
+        Vec2f newPosition = ((Vec2fDuck) locationVec).add(((Vec2fDuck) normVec).multiply(repelFactor));
 
         if (bounce) {
-            if (newPosition.x - radius > 0 && newPosition.x + radius < windowSize.x) locationVec.x = newPosition.x;
-            if (newPosition.y - radius > 0 && newPosition.y + radius < windowSize.y) locationVec.y = newPosition.y;
+            if (newPosition.x - radius > 0 && newPosition.x + radius < windowSize.x) ((Vec2fDuck) locationVec).setX(newPosition.x);
+            if (newPosition.y - radius > 0 && newPosition.y + radius < windowSize.y) ((Vec2fDuck) locationVec).setY(newPosition.y);
         } else {
-            locationVec.x = newPosition.x;
-            locationVec.y = newPosition.y;
+            ((Vec2fDuck) locationVec).set(newPosition.x, newPosition.y);
         }
     }
 }

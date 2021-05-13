@@ -1,6 +1,6 @@
 package morningsage.particletitlescreen;
 
-import com.sun.javafx.geom.Vec2d;
+//import com.sun.javafx.geom.Vec2d;
 import lombok.var;
 import morningsage.particletitlescreen.config.ModConfig;
 import morningsage.particletitlescreen.events.MouseEvents;
@@ -10,6 +10,7 @@ import morningsage.particletitlescreen.utils.RandomUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.math.Vec2f;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
@@ -20,9 +21,9 @@ import static morningsage.particletitlescreen.config.ModConfig.*;
 
 public class ParticleScreenManager {
     private final List<Particle> particles = new ArrayList<>();
-    private static final Vec2d ZERO = new Vec2d();
-    private @Nullable Vec2d mouseLocation = null;
-    private @Nullable Vec2d resolution = null;
+    private static final Vec2f ZERO = Vec2f.ZERO;
+    private @Nullable Vec2f mouseLocation = null;
+    private @Nullable Vec2f resolution = null;
     private @Nullable Double scale = null;
     private static final Window window = MinecraftClient.getInstance().getWindow();
 
@@ -70,20 +71,14 @@ public class ParticleScreenManager {
         if (!particleRepelledByMouse) return;
 
         MouseEvents.ON_LEAVE.register(() -> mouseLocation = null);
-        MouseEvents.ON_MOVE.register((window, x, y) -> {
-            if (mouseLocation == null) {
-                mouseLocation = new Vec2d(x, y);
-            } else {
-                mouseLocation.set(x, y);
-            }
-        });
+        MouseEvents.ON_MOVE.register((window, x, y) -> mouseLocation = new Vec2f((float) x, (float) y));
     }
     private ActionResult onRender() {
         onRenderBackground();
         onRenderParticles();
 
         if (resolution == null || resolution.x != window.getScaledWidth() || resolution.y != window.getScaledHeight()) {
-            resolution = new Vec2d(window.getScaledWidth(), window.getScaledHeight());
+            resolution = new Vec2f(window.getScaledWidth(), window.getScaledHeight());
         }
 
         if (scale == null || scale != window.getScaleFactor()) {
@@ -114,12 +109,12 @@ public class ParticleScreenManager {
     private void onRenderParticles() {
         // Determine position first to make sure all the interactions match up
         if (particleMovement) {
-            Vec2d windowSize = new Vec2d(window.getScaledWidth(), window.getScaledHeight());
+            Vec2f windowSize = new Vec2f(window.getScaledWidth(), window.getScaledHeight());
 
             for (Particle particle : particles) {
                 particle.move();
                 RandomUtils.moveParticleIfNeeded(particle, particleBounce);
-                particle.interactWithMouse(mouseLocation, windowSize, particleBounce, particleDistanceRepelledByMouse, window.getScaleFactor());
+                particle.interactWithMouse(mouseLocation, windowSize, particleBounce, particleDistanceRepelledByMouse, (float) window.getScaleFactor());
             }
         }
 

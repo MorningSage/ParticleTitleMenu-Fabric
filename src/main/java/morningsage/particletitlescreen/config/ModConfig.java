@@ -68,7 +68,7 @@ public final class ModConfig {
         category = "general",
         comment = "Particle movement speed.  Ignored if particleMovement is false."
     )
-    public static double particleMovementSpeed = 5.0D;
+    public static float particleMovementSpeed = 5.0F;
     @ConfigField(
         category = "general",
         comment = "Indicates whether or not lines should be drawn between particles as they near one another."
@@ -103,5 +103,5 @@ public final class ModConfig {
         category = "general",
         comment = "Indicates how far particles should be repelled by the mouse cursor.  Ignored if particleRepelledByMouse is false."
     )
-    public static double particleDistanceRepelledByMouse = 100.0D;
+    public static float particleDistanceRepelledByMouse = 100.0F;
 }
