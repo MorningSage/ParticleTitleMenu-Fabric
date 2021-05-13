@@ -1,6 +1,5 @@
 package morningsage.particletitlescreen;
 
-//import com.sun.javafx.geom.Vec2d;
 import lombok.var;
 import morningsage.particletitlescreen.config.ModConfig;
 import morningsage.particletitlescreen.events.MouseEvents;

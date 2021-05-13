@@ -1,6 +1,5 @@
 package morningsage.particletitlescreen;
 
-//import com.sun.javafx.geom.Vec2d;
 import lombok.*;
 import morningsage.particletitlescreen.ducks.Vec2fDuck;
 import morningsage.particletitlescreen.utils.RandomUtils;
